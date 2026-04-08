@@ -57,15 +57,15 @@ function App() {
 
                 <div className="preview-header">
                   <div>
-                    <p className="preview-name">ALEXANDRA CRUZ</p>
-                    <p className="preview-role">Product Designer</p>
+                    <p className="preview-name">Ezeckiel Bongala</p>
+                    <p className="preview-role">Front-End Developer</p>
                   </div>
                   <span className="preview-badge">Ready to Share</span>
                 </div>
 
                 <div className="preview-meta">
-                  <span>alexandra@email.com</span>
-                  <span>+63 912 345 6789</span>
+                  <span>266ezeckielbongala@email.com</span>
+                  <span>09940904336</span>
                   <span>Manila, PH</span>
                 </div>
 
