@@ -1,14 +1,13 @@
 import { useState } from "react";
+import "./components.css";
 
 function GeneralInfo() {
   const [isEditing, setIsEditing] = useState(true);
-
   const [info, setInfo] = useState({
     name: "",
     email: "",
     phone: "",
   });
-
   const [submittedInfo, setSubmittedInfo] = useState({
     name: "",
     email: "",
@@ -34,58 +33,121 @@ function GeneralInfo() {
     setIsEditing(true);
   }
 
-console.log(info, submittedInfo)
+  const displayFields = [
+    {
+      label: "Full name",
+      value: submittedInfo.name,
+      fallback: "Your name will appear here once you save this section.",
+    },
+    {
+      label: "Email address",
+      value: submittedInfo.email,
+      fallback: "A recruiter-friendly email keeps this section complete.",
+    },
+    {
+      label: "Phone number",
+      value: submittedInfo.phone,
+      fallback: "Add a phone number so your contact block feels finished.",
+    },
+  ];
 
   return (
-    <div>
-      <section className="section">
-        <h2>General Information</h2>
+    <section
+      className="editor-card"
+      style={{
+        "--accent": "#d67952",
+        "--accent-soft": "rgba(214, 121, 82, 0.16)",
+        "--delay": "80ms",
+      }}
+    >
+      <div className="card-header">
+        <div className="card-topline">
+          <span className="card-step">Step 01</span>
+          <span className={`state-pill ${isEditing ? "is-editing" : "is-saved"}`}>
+            {isEditing ? "Currently Editing" : "Section Saved"}
+          </span>
+        </div>
 
-        {isEditing ? (
-          <form onSubmit={handleSubmit} className="form">
+        <h2>General Details</h2>
+        <p>
+          Start with the basics that shape the first impression of your resume.
+        </p>
+      </div>
+
+      {isEditing ? (
+        <form onSubmit={handleSubmit} className="form">
+          <label className="field">
+            <span>Full name</span>
             <input
               type="text"
               name="name"
-              placeholder="Full Name"
+              placeholder="e.g. Maria Santos"
               value={info.name}
               onChange={handleChange}
             />
+          </label>
 
+          <label className="field">
+            <span>Email address</span>
             <input
               type="email"
               name="email"
-              placeholder="Email"
+              placeholder="e.g. maria@email.com"
               value={info.email}
               onChange={handleChange}
             />
+          </label>
 
+          <label className="field">
+            <span>Phone number</span>
             <input
-              type="text"
+              type="tel"
               name="phone"
-              placeholder="Phone Number"
+              placeholder="e.g. +63 912 345 6789"
               value={info.phone}
               onChange={handleChange}
             />
+          </label>
 
-            <button type="submit">Submit</button>
-          </form>
-        ) : (
-          <div className="display-box">
-            <p>
-              <strong>Name:</strong> {submittedInfo.name}
-            </p>
-            <p>
-              <strong>Email:</strong> {submittedInfo.email}
-            </p>
-            <p>
-              <strong>Phone:</strong> {submittedInfo.phone}
-            </p>
+          <p className="form-note">
+            These details usually sit at the very top of the final resume.
+          </p>
 
-            <button onClick={handleEdit}>Edit</button>
+          <div className="card-actions">
+            <button type="submit" className="action-btn primary-btn">
+              Save details
+            </button>
           </div>
-        )}
-      </section>
-    </div>
+        </form>
+      ) : (
+        <div className="display-box">
+          <div className="display-grid">
+            {displayFields.map((field) => {
+              const isEmpty = !field.value;
+
+              return (
+                <article key={field.label} className="display-item">
+                  <p className="display-label">{field.label}</p>
+                  <p className={`display-value ${isEmpty ? "is-empty" : ""}`}>
+                    {field.value || field.fallback}
+                  </p>
+                </article>
+              );
+            })}
+          </div>
+
+          <div className="card-actions">
+            <button
+              type="button"
+              onClick={handleEdit}
+              className="action-btn secondary-btn"
+            >
+              Edit details
+            </button>
+          </div>
+        </div>
+      )}
+    </section>
   );
 }
 

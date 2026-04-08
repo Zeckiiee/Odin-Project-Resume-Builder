@@ -1,14 +1,13 @@
 import { useState } from "react";
+import "./components.css";
 
 function EducationInfo() {
   const [isEditing, setIsEditing] = useState(true);
-
   const [education, setEducation] = useState({
     school: "",
     studyTitle: "",
     studyDate: "",
   });
-
   const [submittedEducation, setSubmittedEducation] = useState({
     school: "",
     studyTitle: "",
@@ -34,56 +33,121 @@ function EducationInfo() {
     setIsEditing(true);
   }
 
-  return (
-    <div>
-      <section className="section">
-        <h2>Educational Experience</h2>
+  const displayFields = [
+    {
+      label: "School",
+      value: submittedEducation.school,
+      fallback: "Add the school or institution where you studied.",
+    },
+    {
+      label: "Title of study",
+      value: submittedEducation.studyTitle,
+      fallback: "Your degree, course, or certification will show here.",
+    },
+    {
+      label: "Study date",
+      value: submittedEducation.studyDate,
+      fallback: "You can use a year, range, or graduation date.",
+    },
+  ];
 
-        {isEditing ? (
-          <form onSubmit={handleSubmit} className="form">
+  return (
+    <section
+      className="editor-card"
+      style={{
+        "--accent": "#7e8d59",
+        "--accent-soft": "rgba(126, 141, 89, 0.16)",
+        "--delay": "160ms",
+      }}
+    >
+      <div className="card-header">
+        <div className="card-topline">
+          <span className="card-step">Step 02</span>
+          <span className={`state-pill ${isEditing ? "is-editing" : "is-saved"}`}>
+            {isEditing ? "Currently Editing" : "Section Saved"}
+          </span>
+        </div>
+
+        <h2>Education</h2>
+        <p>
+          Highlight the academic background that supports your professional story.
+        </p>
+      </div>
+
+      {isEditing ? (
+        <form onSubmit={handleSubmit} className="form">
+          <label className="field">
+            <span>School name</span>
             <input
               type="text"
               name="school"
-              placeholder="School Name"
+              placeholder="e.g. University of the Philippines"
               value={education.school}
               onChange={handleChange}
             />
+          </label>
 
+          <label className="field">
+            <span>Title of study</span>
             <input
               type="text"
               name="studyTitle"
-              placeholder="Title of Study"
+              placeholder="e.g. BS in Information Technology"
               value={education.studyTitle}
               onChange={handleChange}
             />
+          </label>
 
+          <label className="field">
+            <span>Date of study</span>
             <input
               type="text"
               name="studyDate"
-              placeholder="Date of Study"
+              placeholder="e.g. 2020 - 2024"
               value={education.studyDate}
               onChange={handleChange}
             />
+          </label>
 
-            <button type="submit">Submit</button>
-          </form>
-        ) : (
-          <div className="display-box">
-            <p>
-              <strong>School:</strong> {submittedEducation.school}
-            </p>
-            <p>
-              <strong>Title of Study:</strong> {submittedEducation.studyTitle}
-            </p>
-            <p>
-              <strong>Date:</strong> {submittedEducation.studyDate}
-            </p>
+          <p className="form-note">
+            Keep this short and clean so the timeline remains easy to scan.
+          </p>
 
-            <button onClick={handleEdit}>Edit</button>
+          <div className="card-actions">
+            <button type="submit" className="action-btn primary-btn">
+              Save education
+            </button>
           </div>
-        )}
-      </section>
-    </div>
+        </form>
+      ) : (
+        <div className="display-box">
+          <div className="display-grid">
+            {displayFields.map((field) => {
+              const isEmpty = !field.value;
+
+              return (
+                <article key={field.label} className="display-item">
+                  <p className="display-label">{field.label}</p>
+                  <p className={`display-value ${isEmpty ? "is-empty" : ""}`}>
+                    {field.value || field.fallback}
+                  </p>
+                </article>
+              );
+            })}
+          </div>
+
+          <div className="card-actions">
+            <button
+              type="button"
+              onClick={handleEdit}
+              className="action-btn secondary-btn"
+            >
+              Edit education
+            </button>
+          </div>
+        </div>
+      )}
+    </section>
   );
 }
 
